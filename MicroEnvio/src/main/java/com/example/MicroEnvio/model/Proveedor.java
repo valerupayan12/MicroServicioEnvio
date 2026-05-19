@@ -1,0 +1,26 @@
+package com.example.MicroEnvio.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity //se conecta con entidad
+@Table(name="proveedor") //la tabla nombre persona
+@Data //antes de data ahora va lo de arriba
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class Proveedor {
+    @Id
+    private int id_proveedor;
+    @Column(name="nombre", nullable=false)
+    private String nombre;
+   
+}
