@@ -35,7 +35,6 @@ public class Cliente {
     @Column(name = "direccion_envio", length = 255)
     private String direccion_envio;
 
-    @ManyToOne
-    @JoinColumn(name = "id_comuna", nullable = false)
-    private Comuna comuna;
+    @Column(name = "id_comuna", nullable = false)
+    private int comuna;
 }

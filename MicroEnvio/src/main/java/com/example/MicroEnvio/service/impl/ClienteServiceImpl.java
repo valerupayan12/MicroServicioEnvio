@@ -2,9 +2,7 @@ package com.example.MicroEnvio.service.impl;
 
 import com.example.MicroEnvio.dto.ClienteDTO;
 import com.example.MicroEnvio.model.Cliente;
-import com.example.MicroEnvio.model.Comuna;
 import com.example.MicroEnvio.repository.ClienteRepository;
-import com.example.MicroEnvio.repository.ComunaRepository;
 import com.example.MicroEnvio.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +18,6 @@ import java.util.stream.Collectors;
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
-    private final ComunaRepository comunaRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -41,14 +38,12 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteDTO.Response crear(ClienteDTO.Request request) {
         if (clienteRepository.existsByEmail(request.getEmail()))
             throw new RuntimeException("Ya existe un cliente con el email: " + request.getEmail());
-        Comuna comuna = comunaRepository.findById(request.getId_comuna())
-                .orElseThrow(() -> new RuntimeException("Comuna no encontrada con id: " + request.getId_comuna()));
         Cliente c = new Cliente();
         c.setNombre(request.getNombre());
         c.setEmail(request.getEmail());
         c.setTelefono(request.getTelefono());
         c.setDireccion_envio(request.getDireccion_envio());
-        c.setComuna(comuna);
+        c.setComuna(request.getId_comuna());
         return mapToResponse(clienteRepository.save(c));
     }
 
@@ -57,13 +52,11 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteDTO.Response actualizar(int id, ClienteDTO.Request request) {
         Cliente c = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id: " + id));
-        Comuna comuna = comunaRepository.findById(request.getId_comuna())
-                .orElseThrow(() -> new RuntimeException("Comuna no encontrada con id: " + request.getId_comuna()));
         c.setNombre(request.getNombre());
         c.setEmail(request.getEmail());
         c.setTelefono(request.getTelefono());
         c.setDireccion_envio(request.getDireccion_envio());
-        c.setComuna(comuna);
+        c.setComuna(request.getId_comuna());
         return mapToResponse(clienteRepository.save(c));
     }
 
@@ -78,6 +71,6 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteDTO.Response mapToResponse(Cliente c) {
         return new ClienteDTO.Response(
                 c.getId(), c.getNombre(), c.getEmail(),
-                c.getTelefono(), c.getDireccion_envio(), c.getComuna().getNombre());
+                c.getTelefono(), c.getDireccion_envio(), c.getComuna());
     }
 }
