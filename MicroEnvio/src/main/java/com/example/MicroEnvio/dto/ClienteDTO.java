@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 
 public class ClienteDTO {
     @Data @NoArgsConstructor @AllArgsConstructor
@@ -28,6 +27,6 @@ public class ClienteDTO {
         private String email;
         private String telefono;
         private String direccion_envio;
-        private String nombre_comuna;
+        private int id_comuna;
     }
 }
